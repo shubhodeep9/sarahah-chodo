@@ -13,15 +13,16 @@ headers = {
 }
 
 payload = {
-	'__RequestVerificationToken'	: 'CfDJ8MQSRebrM95Pv2f7WNJmKQWDneY6kjZAl3IpvGhXb1oaQpTH0z6Fm_QHFu1faWpR5xnaxBDpvYVXHMGDdEyQr6hDFEcDVHsrACix8eKg2eMqOdqLXnrjTfev-3xZNRJq0iiGB0VL0pGm11VFJ6-Tt-A',
 	'userId'						: '2fb5b368-953d-4658-acaf-425ade091f8e',
 	'text'							: 'Yo',
-	'captchaResponse'				: 'captchaResponse'
+	'captchaResponse'				: ''
 }
 
-r = requests.get('https://username.sarahah.com', params=payload, headers=headers)
+r = requests.post('https://ambitionbox.sarahah.com/Messages/SendMessage', data=payload, headers=headers)
 
+print(r.text)
 if r.status_code == 200:
 	print('Yay!')
 
-	
+print(r.status_code)
+
