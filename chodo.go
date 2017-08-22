@@ -8,7 +8,6 @@ import (
 	"net/url"
 	_ "runtime"
 	str "strings"
-	"sync"
 )
 
 var sent []string
