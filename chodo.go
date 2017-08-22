@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"gopkg.in/headzoo/surf.v1"
 	"io/ioutil"
 	"net/url"
-	"runtime"
+	_ "runtime"
 	str "strings"
 	"sync"
 )
@@ -16,13 +17,16 @@ func sendMessage(username string) bool {
 	bow := surf.NewBrowser()
 	err := bow.Open("https://" + username + ".sarahah.com/")
 	if err != nil {
-		panic(err)
+		return false
 	}
 
 	userid, _ := bow.Find("#RecipientId").Attr("value")
 	text := `Hiiii! How is your job going? Are you enjoying your work or finding it boring? Speak your heart out!
 The best part? You can do it anonymously. Go to Ambitionbox.cοm and rate your company now!`
 	scriptCode := bow.Find("script").Text()
+	if len(scriptCode) == 0 {
+		return false
+	}
 	startI := str.Index(scriptCode, `type="hidden" value="`)
 	endI := str.Index(scriptCode, `" />').attr('value')`)
 	requestVerification := scriptCode[startI+len(`type="hidden" value="`) : endI]
@@ -32,11 +36,11 @@ The best part? You can do it anonymously. Go to Ambitionbox.cοm and rate your c
 	v.Add("captchaResponse", "")
 	v.Add("__RequestVerificationToken", requestVerification)
 	bow.PostForm("https://"+username+".sarahah.com/Messages/SendMessage", v)
+	fmt.Println(username)
 	return bow.Body() == "&#34;Done&#34;"
 }
 
 func main() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
 	var filewait sync.WaitGroup
 	filewait.Add(3)
 	go func() {
