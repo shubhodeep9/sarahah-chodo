@@ -67,6 +67,7 @@ def firstNameCombinations():
 		reader = csv.DictReader(file)
 		for row in reader:
 			if hasSpaceAndAlpha(row['name']):
+				row['name'] = row['name'].rsplit(' ', 1)[0]
 				row['name'] = row['name'].replace(' ','')
 				data.append(row['name'])
 
@@ -90,7 +91,7 @@ def firstNameCombinations():
 		print(e.args[0])
 		pass
 
-	with open('unames.json', 'w') as outfile:
+	with open('ufirstnames.json', 'w') as outfile:
 	    json.dump(selected, outfile)
 
 
