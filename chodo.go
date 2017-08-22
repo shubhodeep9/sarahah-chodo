@@ -40,57 +40,49 @@ The best part? You can do it anonymously. Go to Ambitionbox.cοm and rate your c
 }
 
 func main() {
-	func() {
-		raw, err := ioutil.ReadFile("./unames123.json")
-		if err != nil {
-			panic(err.Error())
-		}
+	raw, err := ioutil.ReadFile("./unames123.json")
+	if err != nil {
+		panic(err.Error())
+	}
 
-		var names []string
-		json.Unmarshal(raw, &names)
+	var names []string
+	json.Unmarshal(raw, &names)
 
-		for _, name := range names {
-			func() {
-				if sendMessage(name) {
-					sent = append(sent, name)
-				}
-			}()
-		}
-	}()
-	func() {
-		raw, err := ioutil.ReadFile("./unames.json")
-		if err != nil {
-			panic(err.Error())
-		}
+	for _, name := range names {
+		func() {
+			if sendMessage(name) {
+				sent = append(sent, name)
+			}
+		}()
+	}
+	raw, err = ioutil.ReadFile("./unames.json")
+	if err != nil {
+		panic(err.Error())
+	}
 
-		var names []string
-		json.Unmarshal(raw, &names)
+	json.Unmarshal(raw, &names)
 
-		for _, name := range names {
-			go func() {
-				if sendMessage(name) {
-					sent = append(sent, name)
-				}
-			}()
-		}
-	}()
-	go func() {
-		raw, err := ioutil.ReadFile("./ufirstnames.json")
-		if err != nil {
-			panic(err.Error())
-		}
+	for _, name := range names {
+		func() {
+			if sendMessage(name) {
+				sent = append(sent, name)
+			}
+		}()
+	}
+	raw, err = ioutil.ReadFile("./ufirstnames.json")
+	if err != nil {
+		panic(err.Error())
+	}
 
-		var names []string
-		json.Unmarshal(raw, &names)
+	json.Unmarshal(raw, &names)
 
-		for _, name := range names {
-			go func() {
-				if sendMessage(name) {
-					sent = append(sent, name)
-				}
-			}()
-		}
-	}()
+	for _, name := range names {
+		func() {
+			if sendMessage(name) {
+				sent = append(sent, name)
+			}
+		}()
+	}
 	sentJson, _ := json.Marshal(sent)
 	ioutil.WriteFile("sent.json", sentJson, 0644)
 }
