@@ -41,10 +41,7 @@ The best part? You can do it anonymously. Go to Ambitionbox.cοm and rate your c
 }
 
 func main() {
-	var filewait sync.WaitGroup
-	filewait.Add(3)
-	go func() {
-		defer filewait.Done()
+	func() {
 		raw, err := ioutil.ReadFile("./unames123.json")
 		if err != nil {
 			panic(err.Error())
@@ -53,20 +50,15 @@ func main() {
 		var names []string
 		json.Unmarshal(raw, &names)
 
-		var message123 sync.WaitGroup
-		message123.Add(len(names))
 		for _, name := range names {
-			go func() {
-				defer message123.Done()
+			func() {
 				if sendMessage(name) {
 					sent = append(sent, name)
 				}
 			}()
 		}
-		message123.Wait()
 	}()
-	go func() {
-		defer filewait.Done()
+	func() {
 		raw, err := ioutil.ReadFile("./unames.json")
 		if err != nil {
 			panic(err.Error())
@@ -75,20 +67,15 @@ func main() {
 		var names []string
 		json.Unmarshal(raw, &names)
 
-		var message sync.WaitGroup
-		message.Add(len(names))
 		for _, name := range names {
 			go func() {
-				defer message.Done()
 				if sendMessage(name) {
 					sent = append(sent, name)
 				}
 			}()
 		}
-		message.Wait()
 	}()
 	go func() {
-		defer filewait.Done()
 		raw, err := ioutil.ReadFile("./ufirstnames.json")
 		if err != nil {
 			panic(err.Error())
@@ -97,19 +84,14 @@ func main() {
 		var names []string
 		json.Unmarshal(raw, &names)
 
-		var firstmessage sync.WaitGroup
-		firstmessage.Add(len(names))
 		for _, name := range names {
 			go func() {
-				defer firstmessage.Done()
 				if sendMessage(name) {
 					sent = append(sent, name)
 				}
 			}()
 		}
-		firstmessage.Wait()
 	}()
-	filewait.Wait()
 	sentJson, _ := json.Marshal(sent)
 	ioutil.WriteFile("sent.json", sentJson, 0644)
 }
