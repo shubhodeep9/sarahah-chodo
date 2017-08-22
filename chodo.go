@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"gopkg.in/headzoo/surf.v1"
 	"io/ioutil"
 	"net/url"
